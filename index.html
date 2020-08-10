@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <script> -->
+    <!-- ! console.log(document.body) null, т.к. во время выполнения скрипта body ещё не был прочитан -->
+    <!-- </script> -->
+    <style>
+      html {
+        font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+        font-size: 16px;
+        line-height: 1.2;
+      }
+
+      body {
+        display: flex;
+        min-height: 100vh;
+        background-color: #222;
+        color: #fff;
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .wrapper {
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #a43125;
+        border: 15px solid #1f4f92;
+        width: 150px;
+        height: 150px;
+        padding: 10px;
+        overflow-y: scroll;
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <button data-specialInfo="hiddeninfo" class="button1 button" type="button">
+      button1</button
+    ><br />
+    <button class="button2 button" type="button">button2</button><br /> -->
+    <div class="wrapper">
+      <h1 class="wrapper__title">Title</h1>
+      <p class="wrapper__content">hello Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem architecto odit eligendi eveniet aliquid. Et, labore laborum enim atque magnam ex ipsa aperiam ab, commodi unde vero quia repudiandae quibusdam. lorem100</p>
+    </div>
+    <!-- <input type="text" value="Kate"> -->
+    <script src="js/main.js"></script>
+    <!-- <script>
+      let newEvent = new CustomEvent("myEvent", {bubbles: true, detail: {name: 'Nikita Gukovskiy'}});
+      let p = document.querySelector('.wrapper__content');
+      p.addEventListener("myEvent", ()=> alert(`hello, ${event.detail.name}`)); // hello, Nikita Gukovskiy
+      p.dispatchEvent(newEvent);
+    </script> -->
+  </body>
+</html>
