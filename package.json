@@ -1,0 +1,22 @@
+{
+  "name": "js-sandbox",
+  "version": "1.0.0",
+  "description": "\"Just a sandbox\"",
+  "main": "nodejs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gukovskiy98/js-sandbox.git"
+  },
+  "author": "Nikita Gukovskiy <GN1998@yandex.ru>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gukovskiy98/js-sandbox/issues"
+  },
+  "homepage": "https://github.com/gukovskiy98/js-sandbox#readme",
+  "dependencies": {
+    "chalk": "^4.1.0"
+  }
+}
