@@ -2,7 +2,7 @@
   "name": "js-sandbox",
   "version": "1.0.0",
   "description": "\"Just a sandbox\"",
-  "main": "nodejs.js",
+  "main": "js/nodejs.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,6 +17,11 @@
   },
   "homepage": "https://github.com/gukovskiy98/js-sandbox#readme",
   "dependencies": {
-    "chalk": "^4.1.0"
+    "chalk": "^4.1.0",
+    "is-even": "^1.0.0",
+    "is-odd": "^3.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }

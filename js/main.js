@@ -654,6 +654,25 @@
 // }
 // ! функция debounce разрешает вызывать console.log не чаще раза в секунду
 
+// function debounce(func, ms) {
+//   let isAvailable = true;
+//   return function(context, ...args) {
+//     if (!isAvailable) return;
+//     isAvailable = false;
+//     setTimeout(()=>isAvailable = true, ms);
+//     return func.apply(context, args);
+//   }
+// }
+
+// let debounceSplit = debounce(String.prototype.split, 1000);
+// console.log(debounceSplit("hello world", ""));
+// console.log(debounceSplit("hello world2", ""));
+// setTimeout(()=>console.log(debounceSplit("hello world3", "")), 500);
+// setTimeout(()=>console.log(debounceSplit("hello world4", "")), 1100);
+// setTimeout(()=>console.log(debounceSplit("hello world5", "")), 1500);
+// setTimeout(()=>console.log(debounceSplit("hello world6", "")), 2201);
+// ! debounce с передачей контекста
+
 // !------- ПРОМИСЫ-------
 
 // console.log('Loading data...');
@@ -778,7 +797,7 @@
 
 // console.log(me.isAlien);
 
-// ! У функций существует свойство prototype. По умолчанию оно является объектом, в котором существует одно свойство constructor, которое ссылается на функцию-конструктор, в качестве значения свойства constructor может выступать только объект или null
+// ! У функций существует свойство prototype. По умолчанию оно является объектом, в котором существует одно свойство constructor, которое ссылается на функцию-конструктор, в качестве значения свойства prototype может выступать только объект или null
 
 // class Person {
 //   constructor(name = 'Nikita', age = 22) {
@@ -903,7 +922,7 @@
 // ! Symbol.species переопределяет конструктор по умолчанию для создания новых объектов
 //     return Array;
 //   }
-//   [Symbol.toStringTag] = this.constructor.name; // ! настраивает поведение метода объектов toString
+  // [Symbol.toStringTag] = this.constructor.name; // ! настраивает поведение метода объектов toString
 // }
 
 // let arr = new ExtendedArray(1, 2, 3, 4, 5); // ! Создание инстанса нового класса ExtendedArray
@@ -1070,7 +1089,6 @@
 
 // ! если изменять значение атрибута HTML-тега как свойство связанного с ним DOM-элемента, то, как правило, значение атрибута тоже меняется (можно проверить с помощью elem.getAttribute(name), то же верно в обратную сторону, то бишь меняя атрибут с помощью elem.setAttribute, меняется свойство elem.[name])
 // ! исключение - свойство value в input-полях (input.value), тогда при изменении атрибута меняется свойство, но изменение свойства не влияют на атрибут (elem.getAttribute выдаст старое значение)
-// ! ^^^ ДА, ЭТО ДЕЙСТВИТЕЛЬНО ТАК
 
 // ! data-атрибуты зарезервированы для использования программистами
 // let but1 = document.querySelector('.button1');
@@ -1409,3 +1427,17 @@
 // ! select.options - возвращает коллекцию подэлементов option
 // ! select.value - текущее значение option
 // ! select.selectedIndex - номер выбранного option
+
+// ! Чтобы задать выбранное поле селекта, можно:
+// ! 1. Для опции установить свойство selected в true select.options[2].selected
+// ! 2. Для select.value задать значение опции
+// ! 3. Для select.selectedIndex задать номер опции
+
+// ! Если для селекта свойство multiple равно true, т.е. дана возможность задавать несколько выбранных опций, то можно использовать только первый способ (задание свойства)
+
+// ! Для создания элемента option существует конструктор Option
+// ! new Option(text, value, defaultSelected, selected)
+// ! text - текст внутри опции
+// ! value - значение (атрибут value)
+// ! defaultSelected - при true ставится HTML-атрибут selected (т.е. по факту устанавливается факт, что опция является ДЕФОЛТНОЙ по умолчанию, но еще не значит что оно выбрано в данный момент)
+// ! selected - при true свойство selected становится true (т.е. записывается текущее состояние)
