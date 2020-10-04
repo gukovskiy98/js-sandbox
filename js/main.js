@@ -673,51 +673,6 @@
 // setTimeout(()=>console.log(debounceSplit("hello world6", "")), 2201);
 // ! debounce с передачей контекста
 
-// !------- ПРОМИСЫ-------
-
-// console.log('Loading data...');
-
-// let p = new Promise(function(resolve, reject) {
-//   setTimeout(()=> {
-//     let data = {
-//       name: "Kate",
-//       age: 21,
-//       isBeautiful: true,
-//     };
-//     console.log('Parsing data...');
-//     resolve(data);
-//   }, 1000)
-// });
-
-// p.then((data)=> {
-//   return new Promise(function(resolve, reject) {
-//     setTimeout(()=>{
-//       data.isMine = true;
-//       console.log('Gotcha!');
-//       resolve(data); // reject перебросит на catch, resolve на следующий then
-//     }, 1000)
-//   })
-// })
-//   .then((data) => { // цепочка промисов
-//   console.log('Data received:');
-//   console.log(data)
-// })
-//   .catch(err => console.error(`Error: ${err}`))
-//   .finally(()=>console.log('Congrats!')); // finally выполнится в любом случае
-
-// let sleep = ms => {
-//   return new Promise( resolve => {
-//     setTimeout(()=>resolve(), ms);
-//   })
-//     .then(()=>console.log(`Promise with ${ms} finished`));
-// }
-// Promise.all([sleep(5000),sleep(6000)]) // ! возвращает промис, который выполнится, когда закончат работу все переданные промисы
-//   .then(()=>console.log('Finished'));
-
-// Promise.race([sleep(1000),sleep(3000)]) // ! выполнится, когда закончит работу хотя бы один промис
-
-// !------- ПРОМИСЫ-КОНЕЦ-------
-
 // let tempObj = Object.create({},{
 //   name: {
 //     value: 'Nikita',
@@ -914,7 +869,7 @@
 // console.log(president.secret);
 
 // class ExtendedArray extends Array {
-// ! Расширение встроенного класса, используется стандартный конструктор Array
+// ! Расширение встроенного класса, используется станда ртный конструктор Array
 //   power(n) {
 //     return this.map((elem) => elem ** n);
 //   }
@@ -922,7 +877,7 @@
 // ! Symbol.species переопределяет конструктор по умолчанию для создания новых объектов
 //     return Array;
 //   }
-  // [Symbol.toStringTag] = this.constructor.name; // ! настраивает поведение метода объектов toString
+// [Symbol.toStringTag] = this.constructor.name; // ! настраивает поведение метода объектов toString
 // }
 
 // let arr = new ExtendedArray(1, 2, 3, 4, 5); // ! Создание инстанса нового класса ExtendedArray
@@ -990,7 +945,89 @@
 // ! Посторонние ошибки, которые не обрабатываются в catch - пробрасываются
 // ! finally исполняется в любом случае, даже при использовании return в try или catch
 
-// ! -------------------- БРАУЗЕРНЫЙ API ------------------------
+// ! КОЛБЭКИ И ПРОМИСЫ
+
+// ! Конструктор объекта Promise принимает колбэк (executor) с двумя параметрами - resolve и reject. При создании объекта executor выполняется сразу
+// ! У созданного инстанса класса Promise существуют внутренние свойства - state, result
+// ! state - pending во время выполнения колбэка, fulfilled - при вызове resolve, rejected - при вызове reject
+// ! result - undefined вначале, value - при вызове resolve(value), error - при вызове reject(error)
+// ! executor переводит промис в одно из двух состояний: (state: "fulfilled", result: value) или (state: "rejected", result: error)
+
+// ! У объекта класса Promise также существуют методы then, catch, finally
+// ! then() - принимает два колбэка, первый выполнится при успешном выполнении промиса (вызове resolve), второй при ошибке (вызове reject)
+// ! catch() - принимает колбэк, который выполнится при ошибке, по сути сокращенный вариант then(null, f)
+// ! finally() - принимает колбэк, который выполнится в любом случае, но, в отличие от then(f, f) не принимает аргументов для колбэка
+// ! finally пропускает сквозь себя результат или ошибку к следующим обработчикам, никак не модифицируя соответствующие аргументы
+
+// ! https://codepen.io/gukovskiy98/pen/GRZdLPG - Пример с чейнингом и подключением сторонних библиотек
+
+// ! Обработчик в then, catch, finally для создания цепочки может возвращать не промис, а любой другой объект, содержащий метод then (thenable object). Это может быть полезно при использовании сторонних реализаций thenable объекта, совместимых ос стандартными промисами
+// ! Если обработчик в then, catch, finally не является функцией, то эти методы просто пробросят промис сквозь себя, сохраняя state и result
+
+// ! catch отлавливает не только вызов resolve, но и другие ошибки, выброшенные с помощью throw, состояние промиса также изменится на rejected
+// ! Из блока catch можно пробрасывать ошибку дальше, если у нас нет обработчика для очередной ошибки, можно поймать ее в браузере с помощью window.addEventListener("unhandledrejection", f)
+
+// ! PROMISE API
+
+// ! Promise.all([...promises]) - принимает массив промисов, после выполнения всех промисов, возвращает промис, результатом которого является массив результатов переданных промисов (порядок сохраняется)
+// ! Если любой из промисов завершится с ошибкой, Promise.all также немедленно завершится с ошибкой, результаты остальных промисов будут игнорироваться, хотя они могут завершиться
+// ! Также в Promise.all можно передать не промис, а любое другое значение, тогда оно передастся в результирующий массив без изменений
+
+// ! Promise.allSettled([...promises]) - также принимает массив промисов, но возввращает массив с объектами в виде [{status:fulfilled, value: <...> },{status:rejected, reason: <...>},...] , т.е. не вылетает немедленно из-за ошибки
+
+// ! Promise.race([...promises]) - возвращает результат первого выполнившегося промиса
+
+// ! Promise.resolve(value) - создает успешно выполненный промис с результатом value
+// ! Promise.resolve(value) то же самое, что new Promise(resolve => resolve(value))
+
+// ! Promise.reject(error) - создает промис, завершенный с ошибкой error
+
+// ! Как правило, для всех асинхронных операций стоит возвращать промис, даже если он не нужен в данный момент
+
+// ! Собственный класс MyOwnPromise
+
+// class MyOwnPromise {
+//   constructor(executor) {
+//     this.queue = [];
+//     this.errorHandler = () => {};
+//     this.finallyHandler = () => {};
+//     try {
+//       executor(this.onResolve.bind(this), this.onReject.bind(this));
+//     } catch(e) {
+//       this.errorHandler(e);
+//     } finally {
+//       this.finallyHandler()
+//     }
+//   }
+//   onResolve(data) {
+//     this.queue.forEach(callback => data = callback(data));
+//     this.finallyHandler()
+//   }
+//   onReject(error) {
+//     this.errorHandler(error);
+//     this.finallyHandler();
+//   }
+//   then(fn) {
+//     this.queue.push(fn);
+//     return this;
+//   }
+//   catch(fn) {
+//     this.errorHandler = fn;
+//     return this;
+//   }
+//   finally(fn) {
+//     this.finallyHandler = fn;
+//     return this;
+//   }
+// }
+
+// let p = new MyOwnPromise(function(resolve) {
+//   setTimeout(()=> {console.log('Test1');
+//     resolve('Haha')
+//   }, 5000);
+// }).then(data => console.log(data)).then(()=>console.log('done'));
+
+// ! -------------------- БРАУЗЕРНЫЙ  API ------------------------
 
 // ! window - глобальный объект браузера
 // ! navigator, location и т.д. - браузерные объекты (BOM)
@@ -1007,7 +1044,7 @@
 // console.log(document.body.firstChild);
 // console.log(document.body.lastChild);
 // ! childNodes возвращает коллекцию (объект-псевдомассив) дочерних узлов
-// ! !!! К  ДОЧЕРНИМ УЗЛАМ ТАКЖЕ ОТНОСЯТСЯ ТЕКСТОВЫЕ УЗЛЫ И КОММЕНТАРИИ
+// ! !!! К ДОЧЕРНИМ УЗЛАМ ТАКЖЕ ОТНОСЯТСЯ ТЕКСТОВЫЕ УЗЛЫ И КОММЕНТАРИИ
 // ! firstChild/lastChild возвращает первого/последнего ребенка
 
 // ! DOM-коллекции только для чтения
@@ -1337,7 +1374,7 @@
 // ! События mouseover/mouseout всплывают, т.е. если на родителя повешены обработчики mouseover и mouseout , то при переходе на дочерний элемент сработает и mouseout(от родителя) и mouseover(на потомка)
 
 // ! События mouseenter и mouseleave похожи на mouseover/mouseout , т.е. выполняют то же самое, но не всплывают и переход на дочерний элемент не будет считаться за уход с элемента
-// ! Из-за того, что mouseenter/mouseleave не всплывают следует, что делигирование с этими событиями не сработает
+// ! Из-за того, что mouseenter/mouseleave не всплывают следует, что делегирование с этими событиями не сработает
 
 // ! Если говорить просто, то если курсор появляется над элементом, причем неважно, над ним самим или над потомком - срабатывает mouseenter, когда курсор покидает элемент во внешнее пространство - срабатывает mouseleave
 
