@@ -14,7 +14,7 @@
 const chalk = require("chalk");
 const helloWorldModule = require("./module1"); // подключаем пользовательский модуль
 console.log(chalk.green("Hello world")); // Выведет Hello world зеленого цвета
-helloWorldModule(); // Выведет Hello world
+helloWorldModule(); // Выведет Hello world`
 
 const isOdd = require("is-odd");
 const isEven = require("is-even");
