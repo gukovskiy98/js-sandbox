@@ -6,7 +6,7 @@
 // ! BigInt
 
 // let name = "Kate";
-// console.log(`Your name is ${name}`); Your name is Kate
+// console.log(`Your name is ${name}`); // Your name is Kate
 // ! Строки с обратными кавычками
 
 //  console.log('10' - `${2+2}`); // 6
@@ -18,7 +18,7 @@
 // breakit:for (let i = 0; i < 5; ++i) {
 //   for (let j = 0; j < 5; ++j) {
 //     console.log(i,j);
-//     if (i+j == 5) break breakit;
+//     if (i+j === 5) break breakit;
 //   }
 // }
 // полностью завершится на 1,4
@@ -42,7 +42,7 @@
 // }
 
 // let newObj = makeObj("Tsoi", "Spokoinaya noch");
-// создаст объект newObj = { name: 'Tsoi', song: 'Kukushka' }
+// создаст объект newObj = { name: 'Tsoi', song: 'Spokoinaya noch' }
 // !совпадение имени свойства и имени аргумента, содержащей значение свойства
 
 // let array = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
